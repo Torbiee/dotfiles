@@ -1,12 +1,17 @@
-return{
+local mason = {
 	"mason-org/mason.nvim",
-	opts={
-	   ui = {
-	       icons ={
-		   packages_installed = "./",
-		   packages_pending = "->",
-		   packages_uninstalled = "X"
-	       }
-	   }
-	}
+	opts = {},
+}
+local mason_lspconfig = {
+	"mason-org/mason-lspconfig.nvim",
+	opts = {},
+	dependencies = {
+		{ "mason-org/mason.nvim", opts = {} },
+		"neovim/nvim-lspconfig",
+	},
+}
+
+return {
+	mason,
+	mason_lspconfig,
 }
