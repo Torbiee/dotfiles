@@ -1,13 +1,39 @@
-return{
-  'stevearc/conform.nvim',
-  opts = {
-	formatters_by_ft = {
-	lua = {"stylua"},
-	java = {"prettierd", "prettier"}
+return {
+	"stevearc/conform.nvim",
+	event = { "BufWritePre" },
+	cmd = { "ConformInfo" },
+	keys = {
+		{
+
+			"<leader>f",
+			function()
+				require("conform").format({ async = true })
+			end,
+			mode = "",
+			desc = "Format buffer",
+		},
 	},
-	format_on_save = {
-		timeout_ms=500,
-		lsp_format = "fallback",
+	---@module "conform"
+	---@type conform.setupOpts
+	opts = {
+		formatters_by_ft = {
+			lua = { "stylua" },
+			java = { "clang-format" },
+			http = { "kulala-fmt"},
+		},
+		default_format_opts = {
+			lsp_format = "fallback",
+		},
+		forrmat_on_save = {
+			timeout_ms = 500,
+		},
+		formatters = {
+			shfmt = {
+				append_args = { "-i", "2" },
+			},
+		},
 	},
-  },
+	init = function()
+		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+	end,
 }
